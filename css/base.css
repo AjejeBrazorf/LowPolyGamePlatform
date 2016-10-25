@@ -84,6 +84,7 @@ button:focus {
     cursor: pointer;
     z-index: 0;
     position: relative;
+    transition: all 0.3s cubic-bezier(1, -0.01, 0.16, 1.06);
 }
 
 .hideme{

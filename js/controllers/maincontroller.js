@@ -1,4 +1,4 @@
-myApp.controller('mainCtrl', function ($scope, $rootScope){
+myApp.controller('mainCtrl', function ($scope, $rootScope, $window){
     $rootScope.identita={};
     $rootScope.identita.type="none";
     $rootScope.identita.name="";
@@ -34,6 +34,7 @@ myApp.controller('mainCtrl', function ($scope, $rootScope){
     for (var i = 1; i <= 12; i++) {
         $rootScope.avatarList .push(i+".png");
     }
+
 });
 
 myApp.controller('playServerCtrl', function ($scope, $rootScope, $state, $firebaseArray, $firebaseObject,GAMEURL){
@@ -64,11 +65,17 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
         $rootScope.identita.color=0;
         $rootScope.identita.img="img/server.png";
         $rootScope.identita.pass="";
+        $rootScope.disconectref = firebase.database().ref($rootScope.identita.type+"s/"+$rootScope.identita.uid);
+        $rootScope.disconectref.onDisconnect().remove();
+
     };
     $scope.createGamer= function(){
         $rootScope.identita.type="gamer";
         $rootScope.identita.color=1;
         $rootScope.identita.img="img/joypad.png";
+        $rootScope.disconectref = firebase.database().ref($rootScope.identita.type+"s/"+$rootScope.identita.uid);
+        $rootScope.disconectref.onDisconnect().remove();
+
     };
 
     $scope.writeData=function(){
