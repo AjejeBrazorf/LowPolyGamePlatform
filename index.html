@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js" ng-app="mainApp"   xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <title>Game Platform</title>
+    <link rel="icon" type="image/png" href="img/favicon.png" sizes="96x96">
+    <meta name="description" content="Game Platform" />
+    <meta name="author" content="Low Poly Inc." />
+    <link rel="stylesheet" type="text/css" href="css/normalize.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="css/base.css" />
+    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+
+</head>
+<body class="no-select" ng-class="{serverside : $root.identita.type=='server', gamerside : $root.identita.type=='gamer'}" ng-style="{'background': idColors[$root.identita.color]}" style="overflow-y: hidden" ng-controller="mainCtrl">
+<div class="codrops-header">
+    <h1><img src="img/space-invaders.png" class="codrops-header logo ">Game Platform </h1>
+    <h4 class="nameBar">{{$root.identita.name}}</h4>
+</div>
+<div class="container">
+<ui-view >
+</ui-view>
+</div>
+</body>
+    <!--[if IE]>
+    <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+   <![endif]-->
+    <script src="js/lib/angular/angular.min.js"></script>
+    <script src="js/angular-ui-router.min.js"></script>
+    <script src="js/lib/angular/angular-resource.min.js"></script>
+    <script src="js/lib/angular-sanitize.js"></script>
+    <script src="js/angular-touch/angular-touch.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/maincontroller.js"></script>
+<link rel="stylesheet" href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css">
+<script src="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.js"></script>
+
+<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+<!--     <script src="https://cdn.firebase.com/js/client/3.0.2/firebase.js"></script> -->
+    <script src="https://cdn.firebase.com/libs/angularfire/1.2.0/angularfire.min.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/3.5.0/firebase.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/3.5.1/firebase.js"></script>
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBCUlXxmGfFnvdVDIKOFGrpMT_egANIOdw",
+        authDomain: "gameplatform-f07aa.firebaseapp.com",
+        databaseURL: "https://gameplatform-f07aa.firebaseio.com",
+        storageBucket: "gameplatform-f07aa.appspot.com",
+        messagingSenderId: "141853043086"
+    };
+    firebase.initializeApp(config);
+</script>
+ </html>

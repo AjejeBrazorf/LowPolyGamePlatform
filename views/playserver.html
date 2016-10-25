@@ -1,0 +1,15 @@
+<head>
+    <meta charset="UTF-8">
+    <title>Play</title>
+</head>
+<body>
+<div class="centredBox">
+    <h2 class="headText">Players</h2>
+    <ul>
+        <li class="serverList" ng-repeat="(pid,p) in players" ng-style="{'background':p.color}" >
+            <img ng-src="img/avatars/{{p.avatar}}.png" class="imgInServerList">
+            <br>{{p.name}}
+        </li>
+    </ul>
+</div>
+</body>

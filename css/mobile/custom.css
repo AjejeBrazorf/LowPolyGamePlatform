@@ -1,0 +1,520 @@
+@media only screen and (max-device-width: 480px) {
+
+    .bodystyle {
+        background-image: url("../../img/background.png");
+        font-size: medium;
+        background-repeat: no-repeat;
+        background-size: cover;
+        overflow-y: auto;
+        overflow-x: auto;
+    }
+
+    .username-input{
+        width: 100%;
+        height: 49px;
+        margin-top: 4%;
+        display: inline-block;
+        font-weight: 100;
+        border: none;
+        outline: none;
+        color: #fff;
+        background: none;
+        transition: width .4s cubic-bezier(0.000, 0.795, 0.000, 1.000);
+        border-bottom: 1px solid #841E21;
+        cursor: text;
+        text-align: center;
+        font-size: inherit;
+    }
+
+
+    .pass{
+        margin-top: 38px;
+        font-size: inherit;
+    }
+
+    .imgLogin{
+        position: relative;
+        padding:1px; border: 0;
+        margin-bottom: 15%;
+        margin-top: 15%;
+    }
+
+    ul.navbaruser {
+        width: 100%;
+        height: 79%;
+        list-style: none;
+        margin: auto;
+        display: inline-flex;
+        overflow-x: scroll;
+    }
+
+    li.navbaruserRow {
+        padding-right: 3%;
+        margin-right: 0;
+    }
+
+    .navbar-left{
+        padding: 0;
+    }
+
+    .topPage{
+        height: 15%;
+        margin-top: 10%;
+    }
+
+    .email-input{
+        top: 40%;
+        left: 50%;
+        clear: both;
+        font-size: inherit;
+    }
+
+    .container-fluid{
+        height: 100% !important;
+    }
+
+    .otherAccount{
+        display: inline-block;
+        font-weight: 100;
+        color: #fff;
+        cursor: default;
+        border-bottom: none;
+        margin-top: 19px;
+        margin-right: 0px;
+        font-size: inherit;
+    }
+
+    .otherAccountDiv{
+        text-align: right;
+        padding-right: 29px;
+    }
+
+    .username-input:focus:hover {
+        border-bottom: 1px solid #841E21;
+    }
+
+    .username-input:focus {
+        width: 100%;
+        z-index: 1;
+        border-bottom: 1px solid #841E21;
+        cursor: text;
+        font-size: inherit;
+
+    }
+
+
+    .menu.login {
+        position: relative;
+        filter: url("../../index.html#goo");
+        bottom: 20%;
+        left: 50%;
+        clear: both;
+    }
+
+
+    .menu-wrapper.login {
+        position: relative;
+        top:35px;
+
+    }
+
+    .menu-toggle-button.login,
+    .menu-item-bounce.login,
+    .menu-item-button.login {
+        background: #841E21;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        margin-left: -20px;
+        margin-top: -20px;
+        color: #fff;
+        border: none;
+        outline: none;
+        position: absolute;
+    }
+
+    .menu-toggle-button.login{
+        background: transparent;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+
+    .menu-toggle-icon.login {
+        font-size: 15px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        line-height: 40px;
+    }
+
+    .menu-items.login {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .menu-item.login {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .menu-item-bounce.login {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .menu-item-button.login {
+        width: 30px;
+        height: 30px;
+        margin-left: -15px;
+        margin-top: -15px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+    }
+
+    .menu-item-button.login:hover {
+        color: #fff;
+    }
+
+
+
+    .iscriviti {
+        color: white;
+        text-align: center;
+
+    }
+
+    .iscriviti>a{
+
+        color:#841E21;
+
+    }
+
+    p{
+        display: block;
+        -webkit-margin-before: 1em;
+        -webkit-margin-after: 1em;
+        -webkit-margin-start: 0px;
+        -webkit-margin-end: 0px;
+    }
+
+    .player{
+        width: 200px;
+    }
+    .player-spectrum{
+        height: 100%;
+        margin-top:0;
+    }
+    .player-spectrum-bars,.vinyl-arm {
+        display: none;
+    }
+    .player-img-album.animateIt{
+        animation: none;
+    }
+    .player-info-text {
+        margin-bottom: 0;
+    }
+    .player-spectrum-floor {
+        height: 13px;
+    }
+
+    .karaoke.max {
+        height: 61%;
+        padding: 9px;
+        padding-top: 28%;
+        font-size: medium;
+    }
+    .karaoke {
+        width: 100%;
+        height: 0%;
+        top: 76px;
+        bottom: 100px;
+        background: rgba(27, 109, 133, 0.88);
+        position: absolute;
+        z-index: 31;
+        text-align: center;
+        color: white;
+        font-size: 0;
+        padding-top: 0;
+        font-weight: 300;
+        transition: all 0.3s cubic-bezier(1, -0.35, 0.58, 1.72);
+    }
+    .nextline {
+        font-size: small;
+        color: rgba(245, 245, 245, 0.41);
+        transition: all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.1s;
+    }
+    #left {
+        text-align: center;
+        height: 156px;
+        position: absolute;
+        top: 0px;
+        bottom: 0;
+        left: 0;
+        overflow-y: scroll;
+        padding-bottom: 0;
+        padding-top: 73px;
+        padding-left: 5px;
+        width: 100%;
+        background: #4D4D52;
+        z-index: 10;
+        overflow-x: hidden;
+    }
+    #right {
+        height: 100%;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        padding: 161px 0px 102px 16px;
+        margin-right: -15px;
+    }
+    .item-navbar:hover {
+        cursor: pointer;
+        width: 65px;
+        height: 65px;
+        background: #222222;
+        border-radius: 9px;
+    }
+    .navbaruserLog {
+        background: #4D4D52;
+        width: 0!important;
+        position: fixed;
+        height: 0!important;
+        border-radius: 0;
+    }
+    .item-navbar.logout {
+        background: #1B6D85;
+        position: fixed;
+        height: 29px!important;
+        width: 29px!important;
+        margin-left: 2px!important;
+        top: 2px!important;
+        padding-top: 5px!important;
+    }
+    i.fa.fa-sign-out.fa-2x.fa.iconrow {
+        font-size: 1em;
+        margin: 0;
+        margin-left: 10px!important;
+    }
+    .bottom-page {
+        height: 112px;
+        margin-right: 200px;
+    }
+    .navbar-fixed-bottom {
+        z-index: 301 !important;
+        max-height: 79px;
+    }
+    .chatContainer {
+        display: inline-flex;
+        width: 100% !important;
+        border-radius: 18px;
+        overflow-x: scroll;
+        padding-left: 0;
+        list-style: none;
+        height: 165px;
+        margin-left: 0 !important;
+        background: #4D4D52;
+    }
+    .artistElement {
+        list-style: none;
+        width: 100px;
+        display: inline-table;
+        margin: 14px;
+        padding-right: 0;
+        padding-left: 0;
+        padding-bottom: 0;
+        padding-top: 5px;
+    }
+    .navbarRanking {
+        height: 80px;
+        background: #4D4D52;
+        border: none;
+        margin: auto 0;
+        margin-top: 76px;
+        width: 100%;
+    }
+    .albumThumb {
+        width: 60px;
+        border-radius: 50px;
+        transition: all Cubic-Bezier(0,0,0,0) 0.1s;
+        cursor: pointer;
+    }
+    .albumList {
+        border-radius: 18px;
+        margin-left: -15px;
+        background-color: rgb(34, 34, 34);
+        overflow-y: scroll;
+        width: 100%;
+    }
+    .rightAlbum {
+        height: 100%;
+        background: url('http://www.45vinylvidivici.net/SEVENTIESimages%20(mq)/procol%20harum%2017000.jpg');
+        background-size: auto 100%;
+        background-repeat: no-repeat;
+        background-position: left top;
+        margin: 0;
+        border-top-right-radius: 18px;
+        border-bottom-right-radius: 18px;
+    }
+    ul.navbaruser>li.last {
+         padding-bottom: 0;
+    }
+    ul.chatlist {
+        padding: 0px;
+        margin: 0px;
+        display: none;
+        padding-bottom: 10px;
+        background: #222222;
+        border-radius: 18px;
+    }
+    .chat-window {
+        border-right: 15px solid #4D4D52 !important;
+        padding: 0 !important;
+        float: left;
+        width: 100% !important;
+        margin: 0 auto;
+        overflow: hidden;
+        color: #222222;
+        border-radius: 20px;
+        font-family: 'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    .chat-message-bubble.nomeamico {
+        border-radius: 0;
+        transform: translate3d(0px, 0px, 0px);
+        opacity: 1;
+        border-bottom-right-radius: 18px;
+        width: 50%;
+        z-index: 50;
+        position: fixed;
+        min-height: 40px;
+        color: white;
+        left: 16px !important;
+        background: #841E21;
+        border: 2px solid #222222;
+        border-top: 0px;
+        border-left: 0px;
+        margin-top: -5px;
+    }
+    .emojiContainer {
+        background: #4D4D52;
+        position: fixed;
+        width: 87% !important;
+        border-radius: 18px;
+        height: 0;
+        top: 100%;
+        bottom: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        overflow: scroll;
+        transition: all cubic-bezier(1, -0.87, 0.79, 1.79) 0.5s;
+    }
+    .emojielement {
+        padding: 5px;
+        display: inline-flex;
+        width: 30px;
+        height: 30px;
+        text-align: initial;
+        font-size: x-large;
+        cursor: pointer;
+    }
+    ul.searchbar {
+        top: 10px;
+        height: 100%;
+        /* width: 400px; */
+        float: right;
+        right: 18px;
+        padding-left: 22px;
+        visibility: collapse;
+    }
+    .searchbar {
+        float: right !important;
+        position: absolute !important;
+        z-index: 10;
+        width: 100% !important;
+    }
+    .backSearchIcon {
+        background: #841E21;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        margin-top: -9px;
+        color: #fff;
+        border: 9px solid #841E21;
+        outline: none;
+        margin-right: 22px;
+        position: relative;
+    }
+
+    .usernametag {
+        height: 50px !important;
+        font-size: 16px;
+        font-family: 'Lato';
+        font-weight: 100;
+        border: none;
+        outline: none;
+        color: #fff;
+        padding: 0;
+        margin-left: 0;
+        height: 50px !Important;
+        width: 100%;
+        position: relative;
+        top: 0;
+        left: 46px;
+        right: 0;
+        background: none;
+        transition: none;
+        cursor: default;
+    }
+    .user-icon {
+        border: 1px solid white;
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        position: absolute;
+        margin-top: 0px;
+        margin-left: -12px;
+    }
+    .camera-icoon {
+        position: absolute;
+        visibility: hidden;
+        width: 50px;
+        margin-left: -12px;
+        height: 50px;
+        margin-top: 0px;
+        padding: 15px;
+        border-radius: 50px;
+        transition: all 0.3s cubic-bezier(1, -0.35, 0.58, 1.72);
+    }
+    i.fa.fa-2x.fa-camera.camera-icoon {
+        font-size: large;
+    }
+    .user-icon:active + .camera-icoon{
+        cursor: pointer;
+        visibility: visible;
+        background: rgba(0,0,0,0.6);
+        color: white;
+    }
+
+    .user-icon + .camera-icoon:active{
+        cursor: pointer;
+        visibility: visible;
+        background: rgba(0,0,0,0.6);
+        color: white;
+    }
+}
