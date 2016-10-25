@@ -58,7 +58,7 @@
                 <div ng-if="serverNames[showModalPass].pass!=null">
                     <input type="text" class="passwordInModal" ng-model="myPassword" > <button class="submitPasswordInModal" ng-click="isMyPasswordOk(showModalPass,myPassword)">ok</button>
                 </div>
-                <div ng-if="serverNames[showModalPass].pass==null">
+                <div ng-init="connecting=false" ng-if="serverNames[showModalPass].pass==null||connecting">
                     <img src="img/google_dino.gif" class="loader">
                 </div>
         </div>

@@ -99,8 +99,10 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
         console.log(myP);
           if($scope.serverNames[i].pass==myP){
               subscribeGamerToServer($rootScope.identita.uid, $rootScope.identita.name,$scope.idColors[$rootScope.identita.color],$rootScope.identita.avatar, i);
+              $scope.connecting=true;
+              $timeout(function(){$state.go("playGamer");}, 1000);
           }
-        $timeout(function(){$state.go("playGamer");}, 1000);
+
     };
 
     $scope.checkName= function(){
