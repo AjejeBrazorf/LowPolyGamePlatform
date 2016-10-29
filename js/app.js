@@ -16,7 +16,27 @@ var myApp=angular.module('mainApp',['firebase','ngSanitize','ui.router','ngTouch
             .state('home',{
                  url:'/home',
                  templateUrl: 'views/home.html',
+                 params: {
+                     showServers: null
+                 },
                  controller: 'homeCtrl'
             });
         $urlRouterProvider.otherwise('home');
+    })
+
+    .directive('focusWhen', function() {
+        return {
+            scope: {
+                focusWhen: '='
+            },
+            link: function($scope, $element) {
+
+                $scope.$watch('focusWhen', function(shouldFocus) {
+                    if (shouldFocus) {
+                        $element[0].focus();
+                    }
+                });
+
+            }
+        };
     });

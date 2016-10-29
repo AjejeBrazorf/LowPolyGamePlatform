@@ -1,4 +1,4 @@
-myApp.controller('mainCtrl', function ($scope, $rootScope, $window){
+myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
     $rootScope.identita={};
     $rootScope.identita.type="none";
     $rootScope.identita.name="";
@@ -35,6 +35,44 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $window){
         $rootScope.avatarList .push(i+".png");
     }
 
+    var serversRef = firebase.database().ref('servers');
+    serversRef.on('value', function(snapshot) {
+        $scope.$apply(function(){
+            $scope.serverNames=snapshot.val()
+        });
+        console.log("novitaServers");
+        if($rootScope.identita.type=="gamer") {
+            if($rootScope.identita.server!=null){
+                var deleteServer= true;
+                angular.forEach($scope.serverNames, function (item) {
+                    console.log(item.name);
+                    if (item.name == $rootScope.identita.server.name) {
+                        deleteServer= false;
+                    }
+                });
+                if(deleteServer=true){
+                    console.log("deleting server");
+                    firebase.database().ref('gamers/' + $rootScope.identita.uid+'/server').remove();
+                    $rootScope.identita.server==null;
+                    if($state.is("home")==false){
+                        $state.go("home",{'showServers':true});
+                    }
+                }else{
+                    console.log("not deleting server");
+                }
+            }
+            // $scope.$apply();
+        }else{
+            console.log("i am not gamer i am "+$rootScope.identita.type+" or maybe i am not connected to any server: "+$rootScope.identita.server);
+        }
+    });
+
+    var gamersRef = firebase.database().ref('gamers');
+    gamersRef.on('value', function(snapshot) {
+        $scope.gamerNames=snapshot.val();
+        console.log("novitaGamers");
+    });
+
 });
 
 myApp.controller('playServerCtrl', function ($scope, $rootScope, $state, $firebaseArray, $firebaseObject,GAMEURL){
@@ -53,16 +91,28 @@ myApp.controller('playServerCtrl', function ($scope, $rootScope, $state, $fireba
 });
 
 myApp.controller('playGamerCtrl', function ($scope, $rootScope, $state, $firebaseArray, $firebaseObject,GAMEURL){
-    if($rootScope.identita.type=="none"){
+    if($rootScope.identita.type=="none"||$rootScope.identita.server==null){
         $state.go("home");
     }
 });
 
-myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
-    $scope.showServers=false;
+myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout, $stateParams){
+    if($stateParams.showServers==null){
+        $scope.showServers=false;
+    }else{
+        $scope.showServers=$stateParams.showServers;
+    }
+    if($scope.showServers==true){
+        $scope.showErrorDisconnectedFromServer=true;
+    }
+    $scope.NameShouldFocus=false;
+    console.log($scope.NameShouldFocus);
+
     $scope.createServer= function(){
         $rootScope.identita.type="server";
         $rootScope.identita.color=0;
+        $scope.NameShouldFocus=true;
+        console.log($scope.NameShouldFocus);
         $rootScope.identita.img="img/server.png";
         $rootScope.identita.pass="";
         $rootScope.disconectref = firebase.database().ref($rootScope.identita.type+"s/"+$rootScope.identita.uid);
@@ -72,10 +122,11 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
     $scope.createGamer= function(){
         $rootScope.identita.type="gamer";
         $rootScope.identita.color=1;
+        $scope.NameShouldFocus=true;
+        console.log($scope.NameShouldFocus);
         $rootScope.identita.img="img/joypad.png";
         $rootScope.disconectref = firebase.database().ref($rootScope.identita.type+"s/"+$rootScope.identita.uid);
         $rootScope.disconectref.onDisconnect().remove();
-
     };
 
     $scope.writeData=function(){
@@ -96,8 +147,7 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
     $scope.checkHasPassowrd=function(i){
         $scope.showModalPass=i;
         if($scope.serverNames[i].pass==null){
-            subscribeGamerToServer($rootScope.identita.uid, $rootScope.identita.name,$scope.idColors[$rootScope.identita.color],$rootScope.identita.avatar, i);
-            $timeout(function(){$state.go("playGamer");}, 1000);
+            $scope.subscribeGamerAndRedirect(i);
         }
     };
 
@@ -105,11 +155,20 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
         console.log($scope.serverNames[i].pass);
         console.log(myP);
           if($scope.serverNames[i].pass==myP){
-              subscribeGamerToServer($rootScope.identita.uid, $rootScope.identita.name,$scope.idColors[$rootScope.identita.color],$rootScope.identita.avatar, i);
-              $scope.connecting=true;
-              $timeout(function(){$state.go("playGamer");}, 1000);
+              $scope.subscribeGamerAndRedirect(i);
           }
 
+    };
+
+    $scope.subscribeGamerAndRedirect=function(i){
+        subscribeGamerToServer($rootScope.identita.uid, $rootScope.identita.name,$scope.idColors[$rootScope.identita.color],$rootScope.identita.avatar, $scope.serverNames[i],i);
+        $rootScope.identita.server=$scope.serverNames[i];
+        $scope.connecting=true;
+        $rootScope.disconectrefGamer = firebase.database().ref('servers/' + i+'/players/'+$rootScope.identita.uid);
+        $rootScope.disconectrefGamer.onDisconnect().remove();
+        $rootScope.disconectrefGamerInServer = firebase.database().ref('gamers/'+$rootScope.identita.uid+'/server');
+        $rootScope.disconectrefGamerInServer.onDisconnect().remove();
+        $timeout(function(){$state.go("playGamer");}, 1000);
     };
 
     $scope.checkName= function(){
@@ -133,18 +192,6 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout){
         $scope.notValidName=tmp;
     };
 
-    var serversRef = firebase.database().ref('servers');
-    serversRef.on('value', function(snapshot) {
-        $scope.serverNames=snapshot.val();
-        console.log("novitaServers");
-        if($rootScope.identita.type=="gamer") {$scope.$apply();}
-    });
-
-    var gamersRef = firebase.database().ref('gamers');
-    gamersRef.on('value', function(snapshot) {
-        $scope.gamerNames=snapshot.val();
-        console.log("novitaGamers");
-    });
 });
 
 function createServerData(serverId, name, pass, havePassword, color) {
@@ -167,12 +214,14 @@ function createGamerData(gamerId, name, color, avatar) {
     });
 }
 
-function subscribeGamerToServer(gamerId, gamerName, gamerColor, gamerAvatar, serverId) {
+function subscribeGamerToServer(gamerId, gamerName, gamerColor, gamerAvatar, server,serverId) {
     firebase.database().ref('servers/' + serverId+'/players/'+gamerId).update({
         name: gamerName,
         color: gamerColor,
         avatar: gamerAvatar
     });
+    server.id=serverId;
+    firebase.database().ref('gamers/'+gamerId+'/server').update(server);
 }
 
 

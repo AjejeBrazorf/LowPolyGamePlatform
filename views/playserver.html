@@ -4,6 +4,7 @@
 </head>
 <body>
 <div class="centredBox">
+    <h1 ng-if="$root.identita.pass!=null" class="headText">Password: {{$root.identita.pass}}</h1>
     <h2 class="headText">Players</h2>
     <ul>
         <li class="serverList" ng-repeat="(pid,p) in players" ng-style="{'background':p.color}" >
