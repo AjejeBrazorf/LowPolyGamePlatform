@@ -17,17 +17,9 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
             var uid = user.uid;
             // ...
             $rootScope.identita.uid=uid;
-        } else {
-            // User is signed out.
-            // ...
-            if($rootScope.identita.type=="server") {
-                firebase.database().ref('servers/' + serverId).set({
-
-                });
-            }
         }
-        // ...
     });
+
     $rootScope.serverImg="img/server.png";
     $rootScope.idColors=["#04a0ca","#6a8c9c","#04ca3c","#ca7604","#7904ca","#FFEB3B"];
     $rootScope.avatarList = [];
@@ -40,6 +32,7 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
         $scope.$apply(function(){
             $scope.serverNames=snapshot.val()
         });
+
         console.log("novitaServers");
         if($rootScope.identita.type=="gamer") {
             if($rootScope.identita.server!=null){
@@ -50,7 +43,7 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
                         deleteServer= false;
                     }
                 });
-                if(deleteServer=true){
+                if(deleteServer==true){
                     console.log("deleting server");
                     firebase.database().ref('gamers/' + $rootScope.identita.uid+'/server').remove();
                     $rootScope.identita.server==null;
@@ -59,6 +52,7 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
                     }
                 }else{
                     console.log("not deleting server");
+                    firebase.database().ref('gamers/' + $rootScope.identita.uid+'/server').update(item);
                 }
             }
             // $scope.$apply();
@@ -71,6 +65,11 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
     gamersRef.on('value', function(snapshot) {
         $scope.gamerNames=snapshot.val();
         console.log("novitaGamers");
+        if($rootScope.identita.type=="gamer") {
+            var tmpId=$rootScope.identita.uid;
+            $rootScope.identita=$scope.gamerNames[$rootScope.identita.uid];
+            if($rootScope.identita!=null)$rootScope.identita.uid=tmpId;
+        }
     });
 
 });
@@ -82,9 +81,50 @@ myApp.controller('playServerCtrl', function ($scope, $rootScope, $state, $fireba
     if($rootScope.identita.type=="server") {
         var serversRef = firebase.database().ref('servers/'+$rootScope.identita.uid);
         serversRef.on('value', function(snapshot) {
-            $scope.players=snapshot.val().players;
-            console.log("novita players in Server");
-            $scope.$apply()
+            $scope.$apply(function() {
+                if($scope.players==null){
+                    console.log("should be the master");
+                    $scope.players = snapshot.val().players;
+                    angular.forEach(snapshot.val().players, function(value, key){
+                        $scope.players[key].isMaster=true;
+                        firebase.database().ref('servers/'+$rootScope.identita.uid+'/players/'+key).update({
+                            isMaster: true
+                        });
+                        firebase.database().ref('gamers/'+key).update({
+                            isMaster: true
+                        });
+                    });
+                }else {
+                    $scope.players = snapshot.val().players;
+                    console.log("novita players in Server");
+                    console.log(snapshot.val().players);
+
+                    $scope.thereIsAMaster=false;
+                    console.log("controllo se c'è un master perché ci sono novita gamers, vediamo");
+                    console.log($rootScope.identita);
+
+                    angular.forEach($rootScope.identita.players, function(value, key) {
+                        console.log("value= "+value);
+                        console.log("key ="+key);
+                        if(value.isMaster==true){
+                            $scope.thereIsAMaster=true;
+                        }
+                    });
+
+                    if($scope.thereIsAMaster==false){
+                        angular.forEach(snapshot.val().players, function(value, key){
+                            $scope.players[key].requestToBeMaster=true;
+                            firebase.database().ref('servers/'+$rootScope.identita.uid+'/players/'+key).update({
+                                requestToBeMaster: true
+                            });
+                            firebase.database().ref('gamers/'+key).update({
+                                requestToBeMaster: true
+                            });
+                        });
+                        $scope.thereIsAMaster=true;
+                    }
+                }
+            });
         });
     }
 
@@ -154,14 +194,16 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout, $st
     $scope.isMyPasswordOk=function(i,myP){
         console.log($scope.serverNames[i].pass);
         console.log(myP);
-          if($scope.serverNames[i].pass==myP){
-              $scope.subscribeGamerAndRedirect(i);
-          }
+        if($scope.serverNames[i].pass==myP){
+            $scope.subscribeGamerAndRedirect(i);
+        }
 
     };
 
     $scope.subscribeGamerAndRedirect=function(i){
-        subscribeGamerToServer($rootScope.identita.uid, $rootScope.identita.name,$scope.idColors[$rootScope.identita.color],$rootScope.identita.avatar, $scope.serverNames[i],i);
+        console.log($rootScope.identita);
+        console.log($rootScope.identita.uid+", "+$rootScope.identita.name+", "+$rootScope.identita.color+", "+$rootScope.identita.avatar+", "+$scope.serverNames[i]+", "+i);
+        subscribeGamerToServer($rootScope.identita.uid, $rootScope.identita.name,$rootScope.identita.color,$rootScope.identita.avatar, $scope.serverNames[i],i);
         $rootScope.identita.server=$scope.serverNames[i];
         $scope.connecting=true;
         $rootScope.disconectrefGamer = firebase.database().ref('servers/' + i+'/players/'+$rootScope.identita.uid);
@@ -227,4 +269,4 @@ function subscribeGamerToServer(gamerId, gamerName, gamerColor, gamerAvatar, ser
 
 /*
 
-*/
+ */

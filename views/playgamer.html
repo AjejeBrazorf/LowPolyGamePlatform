@@ -3,5 +3,6 @@
     <title>Play</title>
 </head>
 <body>
-
+<div ng-if="$root.identita.isMaster"> You are the master</div>
+<div ng-if="$root.identita.thereIsAMaster"> You are the master</div>
 </body>

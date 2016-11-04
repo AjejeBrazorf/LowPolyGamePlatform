@@ -17,35 +17,38 @@
     <div ng-class="{hideme: $root.identita.type=='none' || showServers==true}" class="centredBox">
         <img ng-src="{{$root.identita.img}}">
         <h4 class="headText">Choose your {{$root.identita.type}} name</h4>
-        <input type="text" focus-when="NameShouldFocus" class="name" ng-model="$root.identita.name" ng-change="checkName()" ng-class="{wrong: notValidName==true || $root.identita.name.length==0}"/>
+        <form ng-submit="writeData()">
+            <input type="text" focus-when="NameShouldFocus" class="name" ng-model="$root.identita.name" ng-change="checkName()" ng-class="{wrong: notValidName==true || $root.identita.name.length==0}"/>
 
-        <h4 ng-class="{hideme: $root.identita.type!='server'}" class="headText">and password <input type="checkbox" ng-init="havePassword=false" ng-model="havePassword"> </h4>
-        <input  type="text"  class="name" ng-model="$root.identita.pass" ng-class="{wrong : $root.identita.pass.length==0, hideme: $root.identita.type!='server' || havePassword==false}"/>
+            <h4 ng-class="{hideme: $root.identita.type!='server'}" class="headText">and password <input type="checkbox" ng-init="havePassword=false" ng-model="havePassword"> </h4>
+            <input  type="text"  class="name" ng-model="$root.identita.pass" ng-class="{wrong : $root.identita.pass.length==0, hideme: $root.identita.type!='server' || havePassword==false}"/>
 
-        <h4 class="headText">Color: </h4>
-        <div style="display: block">
-            <div class="color" ng-repeat="c in $root.idColors" ng-class="{selected: $index==$root.identita.color}" ng-style="{'background': c}" ng-click="$root.identita.color=$index"></div>
-        </div>
-        <div style="display: block" ng-if="$root.identita.type=='gamer'" ng-init="$root.identita.avatar=1">
-            <div class="avatar" ng-repeat="a in $root.avatarList" ng-class="{selected: $index+1==$root.identita.avatar}" ng-click="$root.identita.avatar=$index+1">
-                <img  ng-src="img/avatars/{{a}}" >
+            <h4 class="headText">Color: </h4>
+            <div style="display: block">
+                <div class="color" ng-repeat="c in $root.idColors" ng-class="{selected: $index==$root.identita.color}" ng-style="{'background': c}" ng-click="$root.identita.color=$index"></div>
             </div>
-        <a style="position: absolute;    bottom: 0;    margin: auto;    margin-left: -77px;" href="http://www.freepik.com/free-vector/different-user-avatars-set_850131.htm">Designed by Freepik</a>
-        </div>
-        <ul class="buttonList acceptCancel">
-            <li>
-                <button ng-click="$root.identita.type='none'">x</button>
-            </li>
-            <li>
-                <button type="submit" ng-click="writeData()" ng-disabled="notValidName||$root.identita.name.length==0" ng-class="{wrong: notValidName==true || $root.identita.name.length==0}">v</button>
-            </li>
-        </ul>
+            <div style="display: block" ng-if="$root.identita.type=='gamer'" ng-init="$root.identita.avatar=1">
+                <div class="avatar" ng-repeat="a in $root.avatarList" ng-class="{selected: $index+1==$root.identita.avatar}" ng-click="$root.identita.avatar=$index+1">
+                    <img  ng-src="img/avatars/{{a}}" >
+                </div>
+                <a style="position: absolute;    bottom: 0;    margin: auto;    margin-left: -77px;" href="http://www.freepik.com/free-vector/different-user-avatars-set_850131.htm">Designed by Freepik</a>
+            </div>
+            <ul class="buttonList acceptCancel">
+                <li>
+                    <button ng-click="$root.identita.type='none'">x</button>
+                </li>
+                <li>
+                    <button type="submit" ng-disabled="notValidName||$root.identita.name.length==0" ng-class="{wrong: notValidName==true || $root.identita.name.length==0}">v</button>
+                </li>
+            </ul>
+        </form>
         <h4 class="wrong" ng-class="{show: notValidName==true}">This name is used from another {{$root.identita.type}} yet</h4>
     </div>
 
     <div ng-class="{hideme: showServers==false}" class="centredBox">
         <h1 ng-if="showErrorDisconnectedFromServer" class="board-game">Your server disconnected</h1>
-        <h2 class="headText">Choose a server</h2>
+        <h2 ng-class="{hideme: serverNames==null}" class="headText">Choose a server</h2>
+        <h2 ng-class="{hideme: serverNames!=null}" class="headText">It seems there are no servers</h2>
         <ul ng-init="showModalPass=-1">
             <li class="serverList" ng-repeat="(sid,sn) in serverNames"  ng-style="{'background':sn.color}"  ng-click="checkHasPassowrd(sid)">
                     <img ng-src="{{$root.serverImg}}" class="imgInServerList">
