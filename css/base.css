@@ -535,3 +535,15 @@ input[type=text]:focus, textarea:focus {
     text-shadow: 5px 5px 0 rgb(255,210,23) , 10px 10px 0 rgb(90,199,255) , 15px 14px 0 rgba(105,113,117,1) , 20px 20px 0 rgba(112,60,135,1) ;
 }
 
+button.logout {
+    position: fixed;
+    right: 1%;
+    top: 10px;
+    border-radius: 7px;
+    height: 34px;
+    background: #a21111;
+    color: aliceblue;
+}
+button.logout:hover {
+    background: #690b0b !important;
+}

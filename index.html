@@ -19,6 +19,7 @@
 </head>
 <body class="no-select" ng-class="{serverside : $root.identita.type=='server', gamerside : $root.identita.type=='gamer'}" ng-style="{'background': idColors[$root.identita.color]}" style="overflow-y: hidden" ng-controller="mainCtrl">
 <div class="codrops-header">
+    <button class="logout" ng-class="{hideme: $root.identita.server==null||$root.identita.type=='server'}">Log out</button>
     <img class="myAvatar" ng-src="img/avatars/{{$root.identita.avatar}}.png" ng-class="{hideme: $root.identita.avatar==null||$root.identita.type=='server'}" >
     <img class="myAvatar" ng-src="img/avatars/qmark.png" ng-class="{hideme: $root.identita.avatar!=null||$root.identita.type!='gamer'}" >
     <h1><img src="img/space-invaders.png" class="codrops-header logo ">Game Platform </h1>

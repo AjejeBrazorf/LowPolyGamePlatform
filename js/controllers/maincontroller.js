@@ -52,12 +52,14 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
                     }
                 }else{
                     console.log("not deleting server");
+                    console.log(item);
                     firebase.database().ref('gamers/' + $rootScope.identita.uid+'/server').update(item);
                 }
             }
             // $scope.$apply();
         }else{
             console.log("i am not gamer i am "+$rootScope.identita.type+" or maybe i am not connected to any server: "+$rootScope.identita.server);
+            console.log($rootScope.identita.server);
         }
     });
 
@@ -69,6 +71,7 @@ myApp.controller('mainCtrl', function ($scope, $rootScope, $state){
             var tmpId=$rootScope.identita.uid;
             $rootScope.identita=$scope.gamerNames[$rootScope.identita.uid];
             if($rootScope.identita!=null)$rootScope.identita.uid=tmpId;
+            $rootScope.identita.type="gamer";
         }
     });
 
@@ -78,52 +81,63 @@ myApp.controller('playServerCtrl', function ($scope, $rootScope, $state, $fireba
     if($rootScope.identita.type=="none"){
         $state.go("home");
     }
+    $scope.thereIsAMaster=false;
+
     if($rootScope.identita.type=="server") {
         var serversRef = firebase.database().ref('servers/'+$rootScope.identita.uid);
         serversRef.on('value', function(snapshot) {
             $scope.$apply(function() {
-                if($scope.players==null){
-                    console.log("should be the master");
-                    $scope.players = snapshot.val().players;
-                    angular.forEach(snapshot.val().players, function(value, key){
-                        $scope.players[key].isMaster=true;
-                        firebase.database().ref('servers/'+$rootScope.identita.uid+'/players/'+key).update({
-                            isMaster: true
-                        });
-                        firebase.database().ref('gamers/'+key).update({
-                            isMaster: true
-                        });
-                    });
-                }else {
-                    $scope.players = snapshot.val().players;
+                $scope.players = snapshot.val().players;
+                $rootScope.identita.players=$scope.players;
+                if( $scope.players!=null){
                     console.log("novita players in Server");
-                    console.log(snapshot.val().players);
-
-                    $scope.thereIsAMaster=false;
-                    console.log("controllo se c'è un master perché ci sono novita gamers, vediamo");
-                    console.log($rootScope.identita);
-
-                    angular.forEach($rootScope.identita.players, function(value, key) {
-                        console.log("value= "+value);
-                        console.log("key ="+key);
-                        if(value.isMaster==true){
-                            $scope.thereIsAMaster=true;
-                        }
-                    });
-
-                    if($scope.thereIsAMaster==false){
+                    if(Object.keys($scope.players).length==1){
+                        console.log("should be the master");
+                        $scope.thereIsAMaster=true;
+                        $scope.players = snapshot.val().players;
                         angular.forEach(snapshot.val().players, function(value, key){
-                            $scope.players[key].requestToBeMaster=true;
+                            $scope.players[key].isMaster=true;
                             firebase.database().ref('servers/'+$rootScope.identita.uid+'/players/'+key).update({
-                                requestToBeMaster: true
+                                isMaster: true
                             });
                             firebase.database().ref('gamers/'+key).update({
-                                requestToBeMaster: true
+                                isMaster: true
                             });
                         });
-                        $scope.thereIsAMaster=true;
+                    }else {
+                        console.log("controllo se c'è un master perché ci sono novita gamers, vediamo");
+                        console.log($rootScope.identita);
+                        $scope.thereIsAMaster = false;
+                        angular.forEach($rootScope.identita.players, function (value, key) {
+                            console.log("value= " + value);
+                            console.log("key =" + key);
+                            if (value.isMaster == true) {
+                                $scope.thereIsAMaster = true;
+                            }
+                        });
                     }
+                }else{
+                    $scope.thereIsAMaster = false;
                 }
+            });
+
+            if($scope.players!=null) {
+                if ($scope.thereIsAMaster == false) {
+                    angular.forEach(snapshot.val().players, function (value, key) {
+                        $scope.players[key].requestToBeMaster = true;
+                        firebase.database().ref('servers/' + $rootScope.identita.uid + '/players/' + key).update({
+                            requestToBeMaster: true
+                        });
+                        firebase.database().ref('gamers/' + key).update({
+                            requestToBeMaster: true
+                        });
+                    });
+                }
+            }
+
+            angular.forEach(snapshot.val().players, function (value, key) {
+                $scope.players[key].requestToBeMaster = true;
+                firebase.database().ref('gamers/' + key +'/server/players').update(snapshot.val().players);
             });
         });
     }
@@ -157,7 +171,7 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout, $st
         $rootScope.identita.pass="";
         $rootScope.disconectref = firebase.database().ref($rootScope.identita.type+"s/"+$rootScope.identita.uid);
         $rootScope.disconectref.onDisconnect().remove();
-
+        firebase.database().ref("uids/"+$rootScope.identita.uid).onDisconnect().remove();
     };
     $scope.createGamer= function(){
         $rootScope.identita.type="gamer";
@@ -167,6 +181,7 @@ myApp.controller('homeCtrl', function ($scope, $rootScope, $state, $timeout, $st
         $rootScope.identita.img="img/joypad.png";
         $rootScope.disconectref = firebase.database().ref($rootScope.identita.type+"s/"+$rootScope.identita.uid);
         $rootScope.disconectref.onDisconnect().remove();
+        firebase.database().ref("uids/"+$rootScope.identita.uid).onDisconnect().remove();
     };
 
     $scope.writeData=function(){

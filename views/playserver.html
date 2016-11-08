@@ -8,7 +8,7 @@
     <h1 ng-if="$root.identita.pass!=''" class="headText">Password: {{$root.identita.pass}}</h1>
     <h2 ng-class="{hideme: players==null}" class="headText">Players:</h2>
     <h2 ng-class="{hideme: players!=null}" class="headText">It seems there are no players</h2>
-    <h3>{{test}}</h3>
+    <h3>{{thereIsAMaster}}</h3>
     <ul>
         <li class="serverList" ng-repeat="(pid,p) in players" ng-style="{'background':p.color}" >
             <img ng-src="img/avatars/{{p.avatar}}.png" class="imgInServerList">
