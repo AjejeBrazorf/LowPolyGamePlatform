@@ -1,3 +1,3 @@
 # LowPolyGamePlatform
 
-This website explains our first racing game made with Unity, enjoy! :D
+This website is still a not-ended project. It is meant to be a game platform website in which you can play with friends online usinge any device as a controller
